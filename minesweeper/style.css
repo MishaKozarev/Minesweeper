@@ -1,0 +1,38 @@
+.body {
+  background: rgb(218, 218, 233);
+}
+/* .header {
+
+}
+.main {
+
+} */
+
+.field {
+  display: grid;
+  grid-template-columns: repeat(15, 40px);
+  margin: 50px 50px;
+}
+
+.button {
+  height: 40px;
+  font-size: 24px;
+  color :black;
+  border: 4px solid blanchedalmond;
+  border-style: outset;
+}
+.blue {
+  color :blue;
+}
+.green {
+  color : green;
+}
+.red {
+  color :red;
+}
+.blueviolet {
+  color :blueviolet;
+}
+.brown {
+  color :brown;
+}
