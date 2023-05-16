@@ -9,3 +9,4 @@ export const COUNT = document.createElement('div');
 export const SWITCH = document.createElement('label');
 export const CHECKBOX = document.createElement('input');
 export const CHECKBOX_CHECK = document.createElement('span');
+export const RESULT = document.createElement('div');

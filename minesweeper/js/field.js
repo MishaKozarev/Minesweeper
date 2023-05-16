@@ -1,6 +1,7 @@
 export {creatField, createCells, addCells};
 import { BODY, FIELD, WRAPPER, HEADER, MAIN, TIME,
-         PLAY, COUNT, SWITCH, CHECKBOX, CHECKBOX_CHECK} from './elements.js';
+         PLAY, COUNT, SWITCH, CHECKBOX, CHECKBOX_CHECK,
+         RESULT} from './elements.js';
 
 function creatField () {
   WRAPPER.classList.add('wrapper');
@@ -11,13 +12,14 @@ function creatField () {
   TIME.classList.add('time');
   PLAY.classList.add('play');
   COUNT.classList.add('count');
+  RESULT.classList.add('result');
   SWITCH.classList.add('swich');
   CHECKBOX.classList.add('swich__input');
   CHECKBOX_CHECK.classList.add('swich__check');
   CHECKBOX.setAttribute("type", "checkbox");
   BODY.append(WRAPPER);
   WRAPPER.append(HEADER, MAIN);
-  HEADER.append(TIME, PLAY, SWITCH, COUNT);
+  HEADER.append(TIME, PLAY, RESULT, SWITCH, COUNT);
   SWITCH.append(CHECKBOX, CHECKBOX_CHECK);
   MAIN.append(FIELD);
   PLAY.innerHTML = 'New Game'

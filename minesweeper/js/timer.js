@@ -1,18 +1,19 @@
-export {startTimer };
+export {startTimer, stopTimer };
 import { TIME } from './elements.js';
 
 function startTimer () {
   let seconds = 0;
-  let treck;
+  // let treck;
   TIME.textContent = String(seconds).padStart(3, '0')
 
   let timerId = setInterval(() => {
-    if (treck === '10') clearInterval(timerId)
     seconds++
     TIME.textContent = String(seconds).padStart(3, '0')
+      if (seconds === 999) clearInterval(timerId)
   }, 1000)
 }
 
-// function stopTimer () {
-//   clearInterval(timerId)
-// }
+function stopTimer (timerId) {
+  clearInterval(timerId)
+}
+

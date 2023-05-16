@@ -1,9 +1,10 @@
-import { startTimer } from './js/timer.js'
+import { startTimer, stopTimer } from './js/timer.js'
 import { PLAY } from './js/elements.js';
 import { creatField, addCells } from './js/field.js'
 import { FIELD, TIME, COUNT} from './js/elements.js';
-import { playMusic} from './js/music.js';
-import { changeTheme} from './js/theme.js';
+import { playMusic } from './js/music.js';
+import { changeTheme } from './js/theme.js';
+import { winsGame, looseGame } from './js/endGame.js';
 let treck = 0;
 
 creatField();
@@ -11,12 +12,13 @@ changeTheme();
 
 function playGame () {
   PLAY.addEventListener('click', () => {
-    startTimer();
-    startGame (15, 15, 35);
+    startGame (15, 15, 55);
     treck = 0;
     playMusic(treck);
+    startTimer();
   })
 }
+
 
 playGame ();
 let move = 0;
@@ -51,8 +53,61 @@ function startGame (width, height, bombs_count) {
     }
     let column = indexCurrent % width;
     let row = Math.floor(indexCurrent / width);
-    open(row, column)
+    open(row, column);
+
+    function open (row, column) {
+      if (!isValid(row, column)) return;
+      let indexBombs = row * width + column;
+      let cell = cells[indexBombs];
+      cell.classList.add('active')
+      if (cell.disabled === true) return;
+      cell.disabled = true;
+      if (isBomb(row, column)) {
+        treck = 2;
+        for (let i = 0; i < bombs_count; i ++) {
+          cells[bombs[i]].innerHTML = '💣';
+          playMusic(treck);
+          looseGame();
+        }
+        return;
+      }
+      closeCount --;
+
+      if (closeCount <= bombs_count) {
+        let seconds = TIME.textContent;
+        treck = 3;
+        playMusic(treck);
+        winsGame (seconds, move);
+        return;
+      }
+      const count = getCount (row, column);
+      if (count !== 0) {
+        cell.innerHTML = count;
+        if (cell.innerHTML === '1') {
+          cell.classList.add('blue')
+        }
+        if (cell.innerHTML === '2') {
+          cell.classList.add('green')
+        }
+        if (cell.innerHTML === '3') {
+          cell.classList.add('red')
+        }
+        if (cell.innerHTML === '4') {
+          cell.classList.add('blueviolet')
+        }
+        if (cell.innerHTML === '5') {
+          cell.classList.add('brown')
+        }
+        return;
+      }
+      for(let x = -1; x <= 1; x ++) {
+        for(let y = -1; y <= 1; y ++) {
+          open (row + y, column + x);
+        }
+      }
+    }
   });
+
 
   FIELD.addEventListener('contextmenu', (event) => {
     event.preventDefault()
@@ -100,57 +155,14 @@ function startGame (width, height, bombs_count) {
     }
   }
 
-  function open (row, column) {
-    if (!isValid(row, column)) return;
-    let indexBombs = row * width + column;
-    let cell = cells[indexBombs];
-    cell.classList.add('active')
-    if (cell.disabled === true) return;
-    cell.disabled = true;
-    if (isBomb(row, column)) {
-      treck = 2;
-      for (let i = 0; i < bombs_count; i ++) {
-        cells[bombs[i]].innerHTML = '💣';
-        playMusic(treck);
-      }
-      return;
-    }
-    closeCount --;
-    if (closeCount <= bombs_count) {
-       return;
-    }
-    const count = getCount (row, column);
-    if (count !== 0) {
-      cell.innerHTML = count;
-      if (cell.innerHTML === '1') {
-        cell.classList.add('blue')
-      }
-      if (cell.innerHTML === '2') {
-        cell.classList.add('green')
-      }
-      if (cell.innerHTML === '3') {
-        cell.classList.add('red')
-      }
-      if (cell.innerHTML === '4') {
-        cell.classList.add('blueviolet')
-      }
-      if (cell.innerHTML === '5') {
-        cell.classList.add('brown')
-      }
-      return;
-    }
-    for(let x = -1; x <= 1; x ++) {
-      for(let y = -1; y <= 1; y ++) {
-        open (row + y, column + x);
-      }
-    }
-  }
+  
 
   function isBomb (row, column) {
     if (!isValid (row, column)) return false;
     let indexBombs = row * width + column;
     return bombs.includes(indexBombs);
   }
+
 }
 
 
