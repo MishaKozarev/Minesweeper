@@ -6,3 +6,6 @@ export const MAIN = document.createElement('main');
 export const TIME = document.createElement('div');
 export const PLAY = document.createElement('button');
 export const COUNT = document.createElement('div');
+export const SWITCH = document.createElement('label');
+export const CHECKBOX = document.createElement('input');
+export const CHECKBOX_CHECK = document.createElement('span');

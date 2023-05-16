@@ -1,11 +1,24 @@
-import { creatField, createCells, addCells } from './js/field.js'
-import { playGame } from './js/play.js'
+import { startTimer } from './js/timer.js'
+import { PLAY } from './js/elements.js';
+import { creatField, addCells } from './js/field.js'
 import { FIELD, TIME, COUNT} from './js/elements.js';
+import { playMusic} from './js/music.js';
+import { changeTheme} from './js/theme.js';
+let treck = 0;
 
 creatField();
-playGame();
-startGame (15, 15, 35);
+changeTheme();
 
+function playGame () {
+  PLAY.addEventListener('click', () => {
+    startTimer();
+    startGame (15, 15, 35);
+    treck = 0;
+    playMusic(treck);
+  })
+}
+
+playGame ();
 let move = 0;
 let width = 15;
 let height = 15;
@@ -23,6 +36,9 @@ function startGame (width, height, bombs_count) {
     if(event.target.tagName !== 'BUTTON') {
       return;
     }
+    console.log(treck)
+    treck = 1;
+    playMusic(treck);
     move ++
     COUNT.innerHTML = move;
 
@@ -75,8 +91,12 @@ function startGame (width, height, bombs_count) {
     if (cell.disabled === true) return;
     if (cell.innerHTML === '🚩') {
       cell.innerHTML = ' ';
+      treck = 1;
+      playMusic(treck);
     } else {
       cell.innerHTML = '🚩';
+      treck = 1;
+      playMusic(treck);
     }
   }
 
@@ -88,8 +108,10 @@ function startGame (width, height, bombs_count) {
     if (cell.disabled === true) return;
     cell.disabled = true;
     if (isBomb(row, column)) {
+      treck = 2;
       for (let i = 0; i < bombs_count; i ++) {
         cells[bombs[i]].innerHTML = '💣';
+        playMusic(treck);
       }
       return;
     }
@@ -130,5 +152,7 @@ function startGame (width, height, bombs_count) {
     return bombs.includes(indexBombs);
   }
 }
+
+
 
 
