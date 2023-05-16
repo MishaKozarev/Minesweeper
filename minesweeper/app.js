@@ -1,43 +1,30 @@
-const BODY = document.querySelector('.body');
-const FIELD = document.createElement('div');
-const HEADER = document.createElement('header');
-const MAIN = document.createElement('main');
-FIELD.classList.add('field');
-HEADER.classList.add('header');
-MAIN.classList.add('main');
-FIELD.classList.add('field');
-BODY.append(HEADER, MAIN);
-MAIN.append(FIELD);
+import { creatField, createCells, addCells } from './js/field.js'
+import { playGame } from './js/play.js'
+import { FIELD, TIME, COUNT} from './js/elements.js';
 
+creatField();
+playGame();
+startGame (15, 15, 35);
+
+let move = 0;
 let width = 15;
 let height = 15;
-let bombs_count = 15;
-let move = 0;
 let cellsCount = width * height;
+let bombs = [];
+COUNT.innerHTML = move;
+TIME.innerHTML = '000';
 let closeCount = cellsCount;
-startGame (15, 15, 15);
-
-
-const createCells = () => {
-  const BUTTON = document.createElement('button');
-  BUTTON.className = 'button';
-  BUTTON.innerText = null;
-  return BUTTON;
-};
-for (let i = 0; i < cellsCount; i ++) {
-  const BUTTON = createCells();
-  FIELD.appendChild(BUTTON);
-}
-
-
+addCells (cellsCount);
 const cells = [...FIELD.children];
-console.log(cells)
+
+
 function startGame (width, height, bombs_count) {
   FIELD.addEventListener('click', (event) => {
     if(event.target.tagName !== 'BUTTON') {
       return;
     }
     move ++
+    COUNT.innerHTML = move;
 
     const indexCurrent = cells.indexOf(event.target);
     if (move === 1) {
@@ -46,15 +33,9 @@ function startGame (width, height, bombs_count) {
       .filter(number => number !==indexCurrent)
       .slice(0, bombs_count);
     }
-    console.log(move)
-    console.log(indexCurrent)
-    console.log(bombs)
-    console.log(closeCount)
-    console.log(bombs_count)
-
-    let colum = indexCurrent % width;
+    let column = indexCurrent % width;
     let row = Math.floor(indexCurrent / width);
-    open(row, colum)
+    open(row, column)
   });
 
   FIELD.addEventListener('contextmenu', (event) => {
@@ -63,23 +44,23 @@ function startGame (width, height, bombs_count) {
       return;
     }
     const indexCurrent = cells.indexOf(event.target);
-    let colum = indexCurrent % width;
+    let column = indexCurrent % width;
     let row = Math.floor(indexCurrent / width);
-    noteBomb(row, colum)
+    noteBomb(row, column)
   });
 
-  function isValid (row, colum) {
+  function isValid (row, column) {
     return row >= 0
     && row < height
-    && colum >= 0
-    && colum < width
+    && column >= 0
+    && column < width
   }
 
-  function getCount (row, colum) {
+  function getCount (row, column) {
     let count = 0;
     for(let x = -1; x <= 1; x ++) {
       for(let y = -1; y <= 1; y ++) {
-        if (isBomb(row + y, colum + x)) {
+        if (isBomb(row + y, column + x)) {
           count ++;
         }
       }
@@ -87,9 +68,9 @@ function startGame (width, height, bombs_count) {
     return count;
   }
 
-  function noteBomb (row, colum) {
-    if (!isValid(row, colum)) return;
-    let indexBombs = row * width + colum;
+  function noteBomb (row, column) {
+    if (!isValid(row, column)) return;
+    let indexBombs = row * width + column;
     let cell = cells[indexBombs];
     if (cell.disabled === true) return;
     if (cell.innerHTML === '🚩') {
@@ -99,27 +80,24 @@ function startGame (width, height, bombs_count) {
     }
   }
 
-  function open (row, colum) {
-    if (!isValid(row, colum)) return;
-    let indexBombs = row * width + colum;
+  function open (row, column) {
+    if (!isValid(row, column)) return;
+    let indexBombs = row * width + column;
     let cell = cells[indexBombs];
+    cell.classList.add('active')
     if (cell.disabled === true) return;
     cell.disabled = true;
-
-    if (isBomb(row, colum)) {
+    if (isBomb(row, column)) {
       for (let i = 0; i < bombs_count; i ++) {
         cells[bombs[i]].innerHTML = '💣';
       }
       return;
     }
     closeCount --;
-
     if (closeCount <= bombs_count) {
        return;
-
     }
-
-    const count = getCount (row, colum);
+    const count = getCount (row, column);
     if (count !== 0) {
       cell.innerHTML = count;
       if (cell.innerHTML === '1') {
@@ -141,25 +119,16 @@ function startGame (width, height, bombs_count) {
     }
     for(let x = -1; x <= 1; x ++) {
       for(let y = -1; y <= 1; y ++) {
-        open (row + y, colum + x);
+        open (row + y, column + x);
       }
     }
   }
 
-  function isBomb (row, colum) {
-    if (!isValid (row, colum)) return false;
-    let indexBombs = row * width + colum;
+  function isBomb (row, column) {
+    if (!isValid (row, column)) return false;
+    let indexBombs = row * width + column;
     return bombs.includes(indexBombs);
   }
 }
 
 
-
-// let music = new Audio();
-// export function playMusic(src) {
-//   music.pause();
-//   music = new Audio(src);
-//   music.volume = 0.5;
-
-//   music.play();
-// }
