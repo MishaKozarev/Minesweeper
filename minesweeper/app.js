@@ -1,46 +1,93 @@
-import { startTimer, stopTimer } from './js/timer.js'
-import { PLAY } from './js/elements.js';
-import { creatField, addCells } from './js/field.js'
-import { FIELD, TIME, COUNT} from './js/elements.js';
+import { creatHtmlSetting } from './js/setting.js'
+import { creatHtmlField, addCells } from './js/field.js'
+import { FIELD, TIME, COUNT, NEW_GAME, RADIO, INPUT_BOMBS, COUNT_BOMBS, LIST_BTN, LIST_RESULT} from './js/elements.js';
 import { playMusic } from './js/music.js';
 import { changeTheme } from './js/theme.js';
 import { winsGame, looseGame } from './js/endGame.js';
-let treck = 0;
+import { changeStyle } from './js/style.js';
+let sound;
+let width = 10;
+let height = 10;
+let bombsCount = 10;
+let cellsCount = width * height;
+let closeCount = cellsCount;
+let level = '';
+let move = 0;
+let bombs = [];
 
-creatField();
+creatHtmlField();
+creatHtmlSetting();
 changeTheme();
 
-function playGame () {
-  PLAY.addEventListener('click', () => {
-    startGame (15, 15, 55);
-    treck = 0;
-    playMusic(treck);
-    startTimer();
-  })
+
+
+// ------------------ NEW GAME -------------------------------
+function newGame () {
+  NEW_GAME.addEventListener('click', () => {
+    sound = 0;
+    playMusic(sound);
+    choiceLevel (level);
+  });
+}
+newGame ();
+ // -----------------START TIMER --------------------------
+function startTimer () {
+  let seconds = 0;
+  TIME.textContent = String(seconds).padStart(3, '0')
+  let timerId = setInterval(() => {
+    seconds++
+    TIME.textContent = String(seconds).padStart(3, '0')
+      if (sound === 2 || sound === 3) clearInterval(timerId)
+  }, 1000)
 }
 
+INPUT_BOMBS.addEventListener('input', () => {
+  let count = INPUT_BOMBS.value;
+  COUNT_BOMBS.innerHTML = count;
+  bombsCount = count;
+  return bombsCount;
+})
 
-playGame ();
-let move = 0;
-let width = 15;
-let height = 15;
-let cellsCount = width * height;
-let bombs = [];
-COUNT.innerHTML = move;
-TIME.innerHTML = '000';
-let closeCount = cellsCount;
-addCells (cellsCount);
-const cells = [...FIELD.children];
+// ------------------ CHOICE LEVEL -----------------------
+function choiceLevel (level) {
+  const SETTING_BTNS  = document.querySelectorAll('.a')
+  for (let i = 0; i < SETTING_BTNS.length; i ++) {
+    if (SETTING_BTNS[i].checked) {
+      level = RADIO[i].value
+    }
+  }
+  if (level === 'setting-easy') {
+    width = 10;
+    height = 10;
+    cellsCount = width * height;
+  }
+  if (level === 'setting-medium') {
+    width = 15;
+    height = 15;
+    cellsCount = width * height;
 
+  }
+  if (level === 'setting-hard') {
+    width = 25;
+    height = 25;
+    cellsCount = width * height;
+  }
+  game (width, height, bombsCount, cellsCount);
+}
 
-function startGame (width, height, bombs_count) {
+//  ---------------------- GAME ------------------------
+function game (width, height, bombsCount, cellsCount) {
+  startTimer ();
+  changeStyle (width, height);
+  addCells (cellsCount);
+  let cells = [...FIELD.children];
+
   FIELD.addEventListener('click', (event) => {
     if(event.target.tagName !== 'BUTTON') {
       return;
     }
-    console.log(treck)
-    treck = 1;
-    playMusic(treck);
+    sound = 1;
+    playMusic(sound);
     move ++
     COUNT.innerHTML = move;
 
@@ -49,7 +96,7 @@ function startGame (width, height, bombs_count) {
       bombs = [...Array(cellsCount).keys()]
       .sort(() => Math.random() - 0.5)
       .filter(number => number !==indexCurrent)
-      .slice(0, bombs_count);
+      .slice(0, bombsCount);
     }
     let column = indexCurrent % width;
     let row = Math.floor(indexCurrent / width);
@@ -63,20 +110,23 @@ function startGame (width, height, bombs_count) {
       if (cell.disabled === true) return;
       cell.disabled = true;
       if (isBomb(row, column)) {
-        treck = 2;
-        for (let i = 0; i < bombs_count; i ++) {
+        sound = 2;
+        for (let i = 0; i < bombsCount; i ++) {
           cells[bombs[i]].innerHTML = '💣';
-          playMusic(treck);
+          playMusic(sound);
           looseGame();
         }
         return;
       }
       closeCount --;
 
-      if (closeCount <= bombs_count) {
+      if (closeCount <= bombsCount) {
         let seconds = TIME.textContent;
-        treck = 3;
-        playMusic(treck);
+        sound = 3;
+        for (let i = 0; i < bombsCount; i ++) {
+          cells[bombs[i]].innerHTML = '💣';
+        }
+        playMusic(sound);
         winsGame (seconds, move);
         return;
       }
@@ -146,25 +196,23 @@ function startGame (width, height, bombs_count) {
     if (cell.disabled === true) return;
     if (cell.innerHTML === '🚩') {
       cell.innerHTML = ' ';
-      treck = 1;
-      playMusic(treck);
+      sound = 1;
+      playMusic(sound);
     } else {
       cell.innerHTML = '🚩';
-      treck = 1;
-      playMusic(treck);
+      sound = 1;
+      playMusic(sound);
     }
   }
-
-  
 
   function isBomb (row, column) {
     if (!isValid (row, column)) return false;
     let indexBombs = row * width + column;
     return bombs.includes(indexBombs);
   }
-
 }
 
 
-
-
+LIST_BTN.addEventListener('click', () => {
+  LIST_RESULT.classList.toggle('block')
+})
