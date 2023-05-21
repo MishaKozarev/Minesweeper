@@ -20,3 +20,5 @@ export const INPUT_BOMBS = document.createElement('input');
 export const COUNT_BOMBS = document.createElement('div');
 export const LIST_BTN = document.createElement('div');
 export const LIST_RESULT = document.createElement('div');
+export const BUTTON = document.createElement('button');
+

@@ -1,4 +1,4 @@
-export {creatHtmlField, createCells, addCells};
+export {creatHtmlField, createCells, addCells, changeStyle};
 import { BODY, FIELD, WRAPPER, HEADER, MAIN, FOOTER,
          TIME, NEW_GAME, COUNT, SWITCH, CHECKBOX, CHECKBOX_CHECK,
          RESULT, LIST_RESULT} from './elements.js';
@@ -21,9 +21,9 @@ function creatHtmlField () {
   CHECKBOX.setAttribute("type", "checkbox");
   BODY.append(WRAPPER);
   WRAPPER.append(HEADER, MAIN, FOOTER, LIST_RESULT);
-  HEADER.append(TIME, NEW_GAME, RESULT, SWITCH, COUNT);
+  HEADER.append(TIME, NEW_GAME, SWITCH, COUNT);
   SWITCH.append(CHECKBOX, CHECKBOX_CHECK);
-  MAIN.append(FIELD);
+  MAIN.append(FIELD, RESULT);
   NEW_GAME.innerHTML = 'New Game'
   COUNT.innerHTML = '000';
   TIME.innerHTML = '000';
@@ -39,6 +39,22 @@ function addCells (cellsCount) {
   for (let i = 0; i < cellsCount; i ++) {
     const BUTTON = createCells();
     FIELD.appendChild(BUTTON);
+    if (cellsCount === 625) {
+      BUTTON.style.width = `15px`
+      BUTTON.style.height = `15px`
+      BUTTON.style.fontSize = `7px`
+    }
   }
 }
 
+function changeStyle (width, height) {
+  FIELD.style.gridTemplateColumns = `repeat(${width}, 30px)`
+  FIELD.style.width = `${width * 30}px`
+  FIELD.style.height = `${height * 30}px`
+  if (width === 25) {
+    FIELD.style.width = `${width * 15}px`
+    FIELD.style.height = `${height * 15}px`
+    FIELD.style.gridTemplateColumns = `repeat(${width}, 15px)`
+    FIELD.style.marginTop = `${height * 4}px auto`
+  }
+}

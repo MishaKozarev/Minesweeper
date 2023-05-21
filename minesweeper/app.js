@@ -1,10 +1,10 @@
 import { creatHtmlSetting } from './js/setting.js'
-import { creatHtmlField, addCells } from './js/field.js'
+import { creatHtmlField, addCells, changeStyle } from './js/field.js'
 import { FIELD, TIME, COUNT, NEW_GAME, RADIO, INPUT_BOMBS, COUNT_BOMBS, LIST_BTN, LIST_RESULT} from './js/elements.js';
 import { playMusic } from './js/music.js';
 import { changeTheme } from './js/theme.js';
 import { winsGame, looseGame } from './js/endGame.js';
-import { changeStyle } from './js/style.js';
+// import { changeStyle } from './js/style.js';
 let sound;
 let width = 10;
 let height = 10;
@@ -24,6 +24,9 @@ changeTheme();
 // ------------------ NEW GAME -------------------------------
 function newGame () {
   NEW_GAME.addEventListener('click', () => {
+    if (move !== 0) {
+      
+    }
     sound = 0;
     playMusic(sound);
     choiceLevel (level);
@@ -60,29 +63,37 @@ function choiceLevel (level) {
     width = 10;
     height = 10;
     cellsCount = width * height;
+    closeCount = cellsCount;
+
   }
   if (level === 'setting-medium') {
     width = 15;
     height = 15;
     cellsCount = width * height;
+    closeCount = cellsCount;
+
 
   }
   if (level === 'setting-hard') {
     width = 25;
     height = 25;
     cellsCount = width * height;
+    closeCount = cellsCount;
+
   }
-  game (width, height, bombsCount, cellsCount);
+  game (width, height, bombsCount, cellsCount, closeCount);
 }
 
 //  ---------------------- GAME ------------------------
-function game (width, height, bombsCount, cellsCount) {
+function game (width, height, bombsCount, cellsCount, closeCount) {
   startTimer ();
   changeStyle (width, height);
   addCells (cellsCount);
   let cells = [...FIELD.children];
 
   FIELD.addEventListener('click', (event) => {
+    console.log(closeCount);
+        console.log(bombsCount);
     if(event.target.tagName !== 'BUTTON') {
       return;
     }
@@ -106,6 +117,7 @@ function game (width, height, bombsCount, cellsCount) {
       if (!isValid(row, column)) return;
       let indexBombs = row * width + column;
       let cell = cells[indexBombs];
+
       cell.classList.add('active')
       if (cell.disabled === true) return;
       cell.disabled = true;
