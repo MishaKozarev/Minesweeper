@@ -1,6 +1,6 @@
 import { creatHtmlSetting } from './js/setting.js'
 import { creatHtmlField, addCells, changeStyle } from './js/field.js'
-import { FIELD, TIME, COUNT, NEW_GAME, RADIO, INPUT_BOMBS, COUNT_BOMBS, LIST_BTN, LIST_RESULT} from './js/elements.js';
+import { FIELD, TIME, COUNT, START, NEW_GAME, RADIO, INPUT_BOMBS, COUNT_BOMBS, LIST_BTN, LIST_RESULT} from './js/elements.js';
 import { playMusic } from './js/music.js';
 import { changeTheme } from './js/theme.js';
 import { winsGame, looseGame } from './js/endGame.js';
@@ -14,7 +14,6 @@ let closeCount = cellsCount;
 let level = '';
 let move = 0;
 let bombs = [];
-
 creatHtmlField();
 creatHtmlSetting();
 changeTheme();
@@ -22,14 +21,19 @@ changeTheme();
 
 
 // ------------------ NEW GAME -------------------------------
-function newGame () {
-  NEW_GAME.addEventListener('click', () => {
-    if (move !== 0) {
-      
-    }
+function startGame () {
+  START.addEventListener('click', () => {
     sound = 0;
     playMusic(sound);
     choiceLevel (level);
+    START.disabled = true;
+  });
+}
+startGame ();
+
+function newGame () {
+  NEW_GAME.addEventListener('click', () => {
+    location. reload();
   });
 }
 newGame ();
@@ -92,8 +96,6 @@ function game (width, height, bombsCount, cellsCount, closeCount) {
   let cells = [...FIELD.children];
 
   FIELD.addEventListener('click', (event) => {
-    console.log(closeCount);
-        console.log(bombsCount);
     if(event.target.tagName !== 'BUTTON') {
       return;
     }
@@ -125,6 +127,8 @@ function game (width, height, bombsCount, cellsCount, closeCount) {
         sound = 2;
         for (let i = 0; i < bombsCount; i ++) {
           cells[bombs[i]].innerHTML = '💣';
+          cells[bombs[i]].disabled = true;
+          cells.disabled = true;
           playMusic(sound);
           looseGame();
         }
@@ -137,6 +141,7 @@ function game (width, height, bombsCount, cellsCount, closeCount) {
         sound = 3;
         for (let i = 0; i < bombsCount; i ++) {
           cells[bombs[i]].innerHTML = '💣';
+          cells[bombs[i]].disabled = true;
         }
         playMusic(sound);
         winsGame (seconds, move);
@@ -227,4 +232,19 @@ function game (width, height, bombsCount, cellsCount, closeCount) {
 
 LIST_BTN.addEventListener('click', () => {
   LIST_RESULT.classList.toggle('block')
-})
+});
+
+
+function delateCells (cellsCount) {
+  for (let i = 0; i < cellsCount; i ++) {
+    const BUTTON = delateCells();
+    FIELD.remove(BUTTON);
+    if (cellsCount === 625) {
+      BUTTON.style.width = `15px`
+      BUTTON.style.height = `15px`
+      BUTTON.style.fontSize = `7px`
+    }
+  }
+}
+LIST_RESULT.innerHTML = JSON.parse(localStorage.getItem('bestResults'))
+

@@ -1,13 +1,22 @@
 export {winsGame, looseGame };
 import { RESULT, LIST_RESULT } from './elements.js';
 
+
 function winsGame (seconds, move) {
   RESULT.innerHTML = `Hooray! You found all mines in ${seconds } seconds and ${move} moves!`
   RESULT.style.display = 'block'
-  LIST_RESULT.innerHTML = `Мictory for ${seconds } seconds and ${move} moves!`
+  let bestResults = JSON.parse(localStorage.getItem('bestResults')) || [];
+  bestResults.push(`Victory for ${seconds } seconds and ${move} moves!`);
+  console.log(bestResults.length)
+  if (bestResults.length > 11) {
+    bestResults.shift()
+  }
+  localStorage.setItem('bestResults', JSON.stringify(bestResults));
+  LIST_RESULT.innerHTML = JSON.parse(localStorage.getItem('bestResults'))
 }
 
 function looseGame () {
   RESULT.style.display = 'block'
   RESULT.innerHTML = `Game over. Try again`
 }
+

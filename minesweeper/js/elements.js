@@ -6,6 +6,7 @@ export const MAIN = document.createElement('main');
 export const FOOTER = document.createElement('footer');
 export const TIME = document.createElement('div');
 export const NEW_GAME = document.createElement('button');
+export const START = document.createElement('button');
 export const SETTING_BTN = document.createElement('div');
 export const COUNT = document.createElement('div');
 export const SWITCH = document.createElement('label');

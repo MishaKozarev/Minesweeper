@@ -1,6 +1,6 @@
 export {creatHtmlField, createCells, addCells, changeStyle};
 import { BODY, FIELD, WRAPPER, HEADER, MAIN, FOOTER,
-         TIME, NEW_GAME, COUNT, SWITCH, CHECKBOX, CHECKBOX_CHECK,
+         TIME, START, NEW_GAME, COUNT, SWITCH, CHECKBOX, CHECKBOX_CHECK,
          RESULT, LIST_RESULT} from './elements.js';
 
 function creatHtmlField () {
@@ -11,6 +11,7 @@ function creatHtmlField () {
   FOOTER.classList.add('footer');
   FIELD.classList.add('field');
   TIME.classList.add('time');
+  START.classList.add('start');
   NEW_GAME.classList.add('play');
   COUNT.classList.add('count');
   RESULT.classList.add('result');
@@ -21,9 +22,10 @@ function creatHtmlField () {
   CHECKBOX.setAttribute("type", "checkbox");
   BODY.append(WRAPPER);
   WRAPPER.append(HEADER, MAIN, FOOTER, LIST_RESULT);
-  HEADER.append(TIME, NEW_GAME, SWITCH, COUNT);
+  HEADER.append(TIME, NEW_GAME, START, SWITCH, COUNT);
   SWITCH.append(CHECKBOX, CHECKBOX_CHECK);
   MAIN.append(FIELD, RESULT);
+  START.innerHTML = 'START'
   NEW_GAME.innerHTML = 'New Game'
   COUNT.innerHTML = '000';
   TIME.innerHTML = '000';
@@ -44,6 +46,11 @@ function addCells (cellsCount) {
       BUTTON.style.height = `15px`
       BUTTON.style.fontSize = `7px`
     }
+    if (cellsCount === 225) {
+      BUTTON.style.width = `25px`
+      BUTTON.style.height = `25px`
+      BUTTON.style.fontSize = `15px`
+    }
   }
 }
 
@@ -55,6 +62,12 @@ function changeStyle (width, height) {
     FIELD.style.width = `${width * 15}px`
     FIELD.style.height = `${height * 15}px`
     FIELD.style.gridTemplateColumns = `repeat(${width}, 15px)`
+    FIELD.style.marginTop = `${height * 4}px auto`
+  }
+  if (width === 15) {
+    FIELD.style.width = `${width * 25}px`
+    FIELD.style.height = `${height * 25}px`
+    FIELD.style.gridTemplateColumns = `repeat(${width}, 25px)`
     FIELD.style.marginTop = `${height * 4}px auto`
   }
 }
