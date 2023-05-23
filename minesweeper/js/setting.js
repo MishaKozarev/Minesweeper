@@ -1,6 +1,6 @@
 export {creatHtmlSetting}
 import {FOOTER, INPUT_EASY, INPUT_MEDIUM,
-  INPUT_HARD, INPUT_BOMBS, COUNT_BOMBS, LIST_BTN} from './elements.js'
+  INPUT_HARD, INPUT_BOMBS, COUNT_BOMBS, LIST_BTN, MUTE} from './elements.js'
 
 function creatHtmlSetting () {
   const SETTING = document.createElement('div');
@@ -12,11 +12,12 @@ function creatHtmlSetting () {
   const LABEL_BOMBS = document.createElement('label');
   const BTN_SETTING = document.createElement('div');
 
-  INPUT_EASY.classList.add("a");
-  INPUT_MEDIUM.classList.add("a");
-  INPUT_HARD.classList.add("a");
+  INPUT_EASY.classList.add("input-btn");
+  INPUT_MEDIUM.classList.add("input-btn");
+  INPUT_HARD.classList.add("input-btn");
   COUNT_BOMBS.classList.add("count-bombs");
   LIST_BTN.classList.add("count-bombs");
+  MUTE.classList.add("mute");
   BTN_SETTING.classList.add("setting__btn");
   LABEL_EASY.classList.add("setting__label");
   LABEL_MEDIUM.classList.add("setting__label");
@@ -42,7 +43,7 @@ function creatHtmlSetting () {
   LABEL_BOMBS.innerText = 'BOMBS';
   COUNT_BOMBS.innerHTML = '10'
   LIST_BTN.innerHTML = 'LIST'
-  FOOTER.append(SETTING, BTN_SETTING, COUNT_BOMBS, LIST_BTN)
+  FOOTER.append(SETTING, BTN_SETTING, MUTE, COUNT_BOMBS, LIST_BTN)
   SETTING.append(LABEL_EASY, LABEL_MEDIUM, LABEL_HARD,
                 LABEL_BOMBS);
   LABEL_EASY.append(INPUT_EASY);
@@ -53,5 +54,7 @@ function creatHtmlSetting () {
   BTN_SETTING.addEventListener('click', () => {
     SETTING.classList.toggle('block')
     // SETTING.style.display = 'block'
-  })
+    })
   }
+
+ 

@@ -1,7 +1,7 @@
 export {creatHtmlField, createCells, addCells, changeStyle};
 import { BODY, FIELD, WRAPPER, HEADER, MAIN, FOOTER,
          TIME, START, NEW_GAME, COUNT, SWITCH, CHECKBOX, CHECKBOX_CHECK,
-         RESULT, LIST_RESULT} from './elements.js';
+         RESULT, LIST_RESULT, MUTE} from './elements.js';
 
 function creatHtmlField () {
   WRAPPER.classList.add('wrapper');
@@ -71,3 +71,4 @@ function changeStyle (width, height) {
     FIELD.style.marginTop = `${height * 4}px auto`
   }
 }
+

@@ -1,7 +1,9 @@
 import { creatHtmlSetting } from './js/setting.js'
 import { creatHtmlField, addCells, changeStyle } from './js/field.js'
-import { FIELD, TIME, COUNT, START, NEW_GAME, RADIO, INPUT_BOMBS, COUNT_BOMBS, LIST_BTN, LIST_RESULT} from './js/elements.js';
-import { playMusic } from './js/music.js';
+import {PLAY_LIST} from './js/play-list.js'
+
+import { FIELD, TIME, COUNT, START, NEW_GAME, RADIO, INPUT_BOMBS, COUNT_BOMBS, LIST_BTN, LIST_RESULT, MUTE} from './js/elements.js';
+// import { playMusic } from './js/music.js';
 import { changeTheme } from './js/theme.js';
 import { winsGame, looseGame } from './js/endGame.js';
 // import { changeStyle } from './js/style.js';
@@ -14,6 +16,7 @@ let closeCount = cellsCount;
 let level = '';
 let move = 0;
 let bombs = [];
+let isSound = true;
 creatHtmlField();
 creatHtmlSetting();
 changeTheme();
@@ -57,7 +60,7 @@ INPUT_BOMBS.addEventListener('input', () => {
 
 // ------------------ CHOICE LEVEL -----------------------
 function choiceLevel (level) {
-  const SETTING_BTNS  = document.querySelectorAll('.a')
+  const SETTING_BTNS  = document.querySelectorAll('.input-btn')
   for (let i = 0; i < SETTING_BTNS.length; i ++) {
     if (SETTING_BTNS[i].checked) {
       level = RADIO[i].value
@@ -96,6 +99,7 @@ function game (width, height, bombsCount, cellsCount, closeCount) {
   let cells = [...FIELD.children];
 
   FIELD.addEventListener('click', (event) => {
+    console.log(isSound)
     if(event.target.tagName !== 'BUTTON') {
       return;
     }
@@ -127,6 +131,7 @@ function game (width, height, bombsCount, cellsCount, closeCount) {
         sound = 2;
         for (let i = 0; i < bombsCount; i ++) {
           cells[bombs[i]].innerHTML = '💣';
+          cell.style.background = 'red';
           cells[bombs[i]].disabled = true;
           // console.log(cells);
           cells.forEach(element => {
@@ -238,16 +243,21 @@ LIST_BTN.addEventListener('click', () => {
 });
 
 
-function delateCells (cellsCount) {
-  for (let i = 0; i < cellsCount; i ++) {
-    const BUTTON = delateCells();
-    FIELD.remove(BUTTON);
-    if (cellsCount === 625) {
-      BUTTON.style.width = `15px`
-      BUTTON.style.height = `15px`
-      BUTTON.style.fontSize = `7px`
-    }
-  }
-}
 LIST_RESULT.innerHTML = JSON.parse(localStorage.getItem('bestResults'))
 
+MUTE.addEventListener('click', () => {
+  MUTE.classList.toggle('pause')
+  MUTE.classList.contains('pause') ? isSound = false : isSound = true
+  // isSound = false;
+});
+
+function playMusic(treck) {
+  let music = new Audio();
+  music.src = PLAY_LIST[treck].src;
+  music.volume = 0.1;
+  if (isSound === true) {
+    music.play();
+  } else {
+    music.pause();
+  }
+}

@@ -75,13 +75,17 @@
 
 .list__result {
   position: absolute;
+  top: 50%;
+  left:50%;
+  transform:translate(-50%, -50%);
   right: 100px;
   top: 300px;
-  width: 300px;
-  height: 300px;
+  width: 400px;
+  height: 400px;
   background: white;
   display: none;
   padding: 10px;
+  border: 2px black;
 }
 
 .list__result.block{
@@ -99,6 +103,32 @@
   background: white;
   margin-right: 20px;
   cursor: pointer;
+  text-align: center;
+  padding-top: 5px;
+}
+.mute {
+  width: 3%;
+  min-width: 30px;
+  height: 40%;
+  font-size: 20px;
+  font-weight: 900;
+  border: 4px solid blanchedalmond;
+  border-style: outset;
+  background: white;
+  margin-right: 20px;
+  cursor: pointer;
+  text-align: center;
+  padding-top: 5px;
+  background: url(./assets/png/icons8-микрофон-48.png);
+  background-repeat: no-repeat;
+  background-size: 30px 30px;
+  text-align: center;
+}
+.mute.pause {
+  background: url(./assets/png/icons8-выключить-микрофон-48.png);
+  background-repeat: no-repeat;
+  background-size: 30px 30px;
+  text-align: center;
 }
 
 .setting {
