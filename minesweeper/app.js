@@ -1,12 +1,9 @@
 import { creatHtmlSetting } from './js/setting.js'
 import { creatHtmlField, addCells, changeStyle } from './js/field.js'
-import {PLAY_LIST} from './js/play-list.js'
-
 import { FIELD, TIME, COUNT, START, NEW_GAME, RADIO, INPUT_BOMBS, COUNT_BOMBS, LIST_BTN, LIST_RESULT, MUTE} from './js/elements.js';
-// import { playMusic } from './js/music.js';
+import { playMusic } from './js/music.js';
 import { changeTheme } from './js/theme.js';
 import { winsGame, looseGame } from './js/endGame.js';
-// import { changeStyle } from './js/style.js';
 let sound;
 let width = 10;
 let height = 10;
@@ -27,7 +24,7 @@ changeTheme();
 function startGame () {
   START.addEventListener('click', () => {
     sound = 0;
-    playMusic(sound);
+    playMusic(sound, isSound);
     choiceLevel (level);
     START.disabled = true;
   });
@@ -104,7 +101,7 @@ function game (width, height, bombsCount, cellsCount, closeCount) {
       return;
     }
     sound = 1;
-    playMusic(sound);
+    playMusic(sound, isSound);
     move ++
     COUNT.innerHTML = move;
 
@@ -137,7 +134,7 @@ function game (width, height, bombsCount, cellsCount, closeCount) {
           cells.forEach(element => {
             element.disabled = true;
           });
-          playMusic(sound);
+          playMusic(sound, isSound);
           looseGame();
         }
         return;
@@ -151,7 +148,7 @@ function game (width, height, bombsCount, cellsCount, closeCount) {
           cells[bombs[i]].innerHTML = '💣';
           cells[bombs[i]].disabled = true;
         }
-        playMusic(sound);
+        playMusic(sound, isSound);
         winsGame (seconds, move);
         return;
       }
@@ -222,11 +219,11 @@ function game (width, height, bombsCount, cellsCount, closeCount) {
     if (cell.innerHTML === '🚩') {
       cell.innerHTML = ' ';
       sound = 1;
-      playMusic(sound);
+      playMusic(sound, isSound);
     } else {
       cell.innerHTML = '🚩';
       sound = 1;
-      playMusic(sound);
+      playMusic(sound, isSound);
     }
   }
 
@@ -248,16 +245,4 @@ LIST_RESULT.innerHTML = JSON.parse(localStorage.getItem('bestResults'))
 MUTE.addEventListener('click', () => {
   MUTE.classList.toggle('pause')
   MUTE.classList.contains('pause') ? isSound = false : isSound = true
-  // isSound = false;
 });
-
-function playMusic(treck) {
-  let music = new Audio();
-  music.src = PLAY_LIST[treck].src;
-  music.volume = 0.1;
-  if (isSound === true) {
-    music.play();
-  } else {
-    music.pause();
-  }
-}

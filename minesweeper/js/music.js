@@ -1,14 +1,14 @@
-// export {playMusic};
+export {playMusic};
 import {PLAY_LIST} from './play-list.js'
-// import {MUTE} from './setting'
 
-function playMusic(treck) {
+function playMusic(sound, isSound) {
   let music = new Audio();
-  music.src = PLAY_LIST[treck].src;
+  music.src = PLAY_LIST[sound].src;
   music.volume = 0.1;
-  if (music === true) {
+  if (isSound === true) {
     music.play();
   } else {
     music.pause();
   }
 }
+
