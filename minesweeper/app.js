@@ -128,7 +128,10 @@ function game (width, height, bombsCount, cellsCount, closeCount) {
         for (let i = 0; i < bombsCount; i ++) {
           cells[bombs[i]].innerHTML = '💣';
           cells[bombs[i]].disabled = true;
-          cells.disabled = true;
+          // console.log(cells);
+          cells.forEach(element => {
+            element.disabled = true;
+          });
           playMusic(sound);
           looseGame();
         }
