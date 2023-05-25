@@ -41,7 +41,7 @@ function creatHtmlField () {
   FLAG.innerHTML = '0';
   TIME.innerHTML = '000';
   TITLE_TIME.innerHTML = 'TIME';
-  TITLE_FLAG.innerHTML = 'FLAG';
+  TITLE_FLAG.innerHTML = 'BOMBS';
   TITLE_COUNT.innerHTML = 'COUNT';
 }
 const createCells = () => {
