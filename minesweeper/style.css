@@ -140,8 +140,8 @@
 }
 
 .count {
-  width: 10%;
-  min-width: 70px;
+  width: 5%;
+  min-width: 35px;
   height: 70%;
   background: rgb(44, 43, 43);
   font-size: 30px;

@@ -1,6 +1,6 @@
 import { creatHtmlSetting } from './js/setting.js'
 import { creatHtmlField, addCells, changeStyle } from './js/field.js'
-import { FIELD, TIME, COUNT, START, NEW_GAME, RADIO, INPUT_BOMBS, COUNT_BOMBS, LIST_BTN, LIST_RESULT, MUTE} from './js/elements.js';
+import { FIELD, TIME, COUNT, START, NEW_GAME, RADIO, INPUT_BOMBS, COUNT_BOMBS, LIST_BTN, LIST_RESULT, MUTE, FLAG} from './js/elements.js';
 import { playMusic } from './js/music.js';
 import { changeTheme } from './js/theme.js';
 import { winsGame, looseGame } from './js/endGame.js';
@@ -14,6 +14,7 @@ let level = '';
 let move = 0;
 let bombs = [];
 let isSound = true;
+let flag = bombsCount;
 creatHtmlField();
 creatHtmlSetting();
 changeTheme();
@@ -83,7 +84,6 @@ function choiceLevel (level) {
     height = 25;
     cellsCount = width * height;
     closeCount = cellsCount;
-
   }
   game (width, height, bombsCount, cellsCount, closeCount);
 }
@@ -94,6 +94,7 @@ function game (width, height, bombsCount, cellsCount, closeCount) {
   changeStyle (width, height);
   addCells (cellsCount);
   let cells = [...FIELD.children];
+  FLAG.innerHTML = flag;
 
   FIELD.addEventListener('click', (event) => {
     console.log(isSound)
@@ -218,10 +219,14 @@ function game (width, height, bombsCount, cellsCount, closeCount) {
     if (cell.disabled === true) return;
     if (cell.innerHTML === '🚩') {
       cell.innerHTML = ' ';
+      flag ++;
+      FLAG.innerHTML = flag;
       sound = 1;
       playMusic(sound, isSound);
     } else {
       cell.innerHTML = '🚩';
+      flag --;
+      FLAG.innerHTML = flag;
       sound = 1;
       playMusic(sound, isSound);
     }
@@ -246,3 +251,4 @@ MUTE.addEventListener('click', () => {
   MUTE.classList.toggle('pause')
   MUTE.classList.contains('pause') ? isSound = false : isSound = true
 });
+

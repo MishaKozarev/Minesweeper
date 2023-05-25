@@ -1,7 +1,7 @@
 export {creatHtmlField, createCells, addCells, changeStyle};
 import { BODY, FIELD, WRAPPER, HEADER, MAIN, FOOTER,
          TIME, START, NEW_GAME, COUNT, SWITCH, CHECKBOX, CHECKBOX_CHECK,
-         RESULT, LIST_RESULT, MUTE} from './elements.js';
+         RESULT, LIST_RESULT, FLAG} from './elements.js';
 
 function creatHtmlField () {
   WRAPPER.classList.add('wrapper');
@@ -14,6 +14,7 @@ function creatHtmlField () {
   START.classList.add('start');
   NEW_GAME.classList.add('play');
   COUNT.classList.add('count');
+  FLAG.classList.add('count');
   RESULT.classList.add('result');
   LIST_RESULT.classList.add('list__result');
   SWITCH.classList.add('swich');
@@ -22,12 +23,13 @@ function creatHtmlField () {
   CHECKBOX.setAttribute("type", "checkbox");
   BODY.append(WRAPPER);
   WRAPPER.append(HEADER, MAIN, FOOTER, LIST_RESULT);
-  HEADER.append(TIME, NEW_GAME, START, SWITCH, COUNT);
+  HEADER.append(TIME, NEW_GAME, START, SWITCH, FLAG, COUNT);
   SWITCH.append(CHECKBOX, CHECKBOX_CHECK);
   MAIN.append(FIELD, RESULT);
   START.innerHTML = 'START'
   NEW_GAME.innerHTML = 'New Game'
-  COUNT.innerHTML = '000';
+  COUNT.innerHTML = '0';
+  FLAG.innerHTML = '0';
   TIME.innerHTML = '000';
 }
 const createCells = () => {
