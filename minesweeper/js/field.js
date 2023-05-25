@@ -1,7 +1,8 @@
 export {creatHtmlField, createCells, addCells, changeStyle};
 import { BODY, FIELD, WRAPPER, HEADER, MAIN, FOOTER,
-         TIME, START, NEW_GAME, COUNT, SWITCH, CHECKBOX, CHECKBOX_CHECK,
-         RESULT, LIST_RESULT, FLAG} from './elements.js';
+  TIME_WRAPPER, TIME, START, NEW_GAME, COUNT_WRAPPER, COUNT, SWITCH,
+  CHECKBOX, CHECKBOX_CHECK,RESULT, LIST_RESULT, FLAG_WRAPPER, FLAG,
+  TITLE_TIME, TITLE_FLAG, TITLE_COUNT} from './elements.js';
 
 function creatHtmlField () {
   WRAPPER.classList.add('wrapper');
@@ -10,6 +11,11 @@ function creatHtmlField () {
   MAIN.classList.add('main');
   FOOTER.classList.add('footer');
   FIELD.classList.add('field');
+
+  TIME_WRAPPER.classList.add('wrapper-time');
+  FLAG_WRAPPER.classList.add('wrapper-flag');
+  COUNT_WRAPPER.classList.add('wrapper-count');
+
   TIME.classList.add('time');
   START.classList.add('start');
   NEW_GAME.classList.add('play');
@@ -23,14 +29,20 @@ function creatHtmlField () {
   CHECKBOX.setAttribute("type", "checkbox");
   BODY.append(WRAPPER);
   WRAPPER.append(HEADER, MAIN, FOOTER, LIST_RESULT);
-  HEADER.append(TIME, NEW_GAME, START, SWITCH, FLAG, COUNT);
+  HEADER.append(TIME_WRAPPER, NEW_GAME, START, SWITCH, FLAG_WRAPPER, COUNT_WRAPPER);
   SWITCH.append(CHECKBOX, CHECKBOX_CHECK);
+  TIME_WRAPPER.append(TITLE_TIME, TIME);
+  FLAG_WRAPPER.append(TITLE_FLAG, FLAG);
+  COUNT_WRAPPER.append(TITLE_COUNT, COUNT);
   MAIN.append(FIELD, RESULT);
   START.innerHTML = 'START'
   NEW_GAME.innerHTML = 'New Game'
   COUNT.innerHTML = '0';
   FLAG.innerHTML = '0';
   TIME.innerHTML = '000';
+  TITLE_TIME.innerHTML = 'TIME';
+  TITLE_FLAG.innerHTML = 'FLAG';
+  TITLE_COUNT.innerHTML = 'COUNT';
 }
 const createCells = () => {
   const BUTTON = document.createElement('button');

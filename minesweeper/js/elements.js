@@ -25,3 +25,10 @@ export const BUTTON = document.createElement('button');
 export const MUTE = document.createElement('div');
 export const FLAG = document.createElement('div');
 
+export const TIME_WRAPPER = document.createElement('div');
+export const FLAG_WRAPPER = document.createElement('div');
+export const COUNT_WRAPPER = document.createElement('div');
+export const TITLE_TIME = document.createElement('p');
+export const TITLE_FLAG = document.createElement('p');
+export const TITLE_COUNT = document.createElement('p');
+
