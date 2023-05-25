@@ -94,6 +94,7 @@ function game (width, height, bombsCount, cellsCount, closeCount) {
   changeStyle (width, height);
   addCells (cellsCount);
   let cells = [...FIELD.children];
+  flag = bombsCount;
   FLAG.innerHTML = flag;
 
   FIELD.addEventListener('click', (event) => {
